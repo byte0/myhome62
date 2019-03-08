@@ -1,6 +1,7 @@
 // 登录页
 import React from 'react';
 import { Form, Icon, Button, Divider } from 'semantic-ui-react';
+import { withRouter } from "react-router-dom";
 import axios from 'axios';
 import './login.css';
 
@@ -37,6 +38,10 @@ class Login extends React.Component {
     });
     // 存储token
     sessionStorage.setItem('mytoken', ret.data.data.token);
+    // 获取history对象
+    let {history} = this.props;
+    // 跳转到主页
+    history.push('/home');
   }
   render() {
     return (
@@ -79,4 +84,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);
