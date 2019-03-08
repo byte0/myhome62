@@ -1,9 +1,43 @@
 // 登录页
 import React from 'react';
 import { Form, Icon, Button, Divider } from 'semantic-ui-react';
+import axios from 'axios';
 import './login.css';
 
 class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: ''
+    }
+  }
+  handleUsername = (event) => {
+    this.setState({
+      username: event.target.value
+    });
+  }
+  handlePassword = (event) => {
+    this.setState({
+      password: event.target.value
+    });
+  }
+  submit = async () => {
+    // 获取表单数据
+    // 调用后台接口进行身份验证 http://47.96.21.88:8086/users/login
+    // 验证通过后，后台会返回token信息
+    // 客户端接收到token然后存储到sessionStorage中
+    // 跳转到主页面
+    // console.log(this.state.username)
+    // console.log(this.state.password)
+    let url = 'http://47.96.21.88:8086/users/login';
+    let ret = await axios.post(url, {
+      uname: this.state.username,
+      pwd: this.state.password
+    });
+    // 存储token
+    sessionStorage.setItem('mytoken', ret.data.data.token);
+  }
   render() {
     return (
       <div className='login-container'>
@@ -18,6 +52,8 @@ class Login extends React.Component {
               size='big' 
               iconPosition='left' 
               name='username'
+              value={this.state.username}
+              onChange={this.handleUsername}
               placeholder='请输入用户名...' 
             />
             <Form.Input 
@@ -25,10 +61,12 @@ class Login extends React.Component {
               required 
               size='big' 
               iconPosition='left' 
-              name='username'
+              name='password'
+              value={this.state.password}
+              onChange={this.handlePassword}
               placeholder='请输入密码...' 
             />
-            <Button fluid color='green'>登录</Button>
+            <Button onClick={this.submit} fluid color='green'>登录</Button>
             <Divider horizontal>---</Divider>
           </Form>
         </div>
