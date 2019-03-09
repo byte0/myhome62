@@ -42,3 +42,7 @@
   height: 15px;
   line-height: 10px;
 }
+
+.active {
+  color: orange;
+}
