@@ -4,6 +4,11 @@ import { Grid } from 'semantic-ui-react';
 import { Route, Link, Switch } from "react-router-dom";
 
 import './main.css';
+// 导入子组件
+import Main from './home/index';
+import Info from './info/index';
+import Chat from './chat/index';
+import My from './my/index';
 
 // 自定义链接样式:只要有链接触发，children对应的函数就会调用
 function Menu(props) {
@@ -25,16 +30,16 @@ function Menu(props) {
   );
 }
 
-class Main extends React.Component {
+class Home extends React.Component {
   render() {
     return (
       <div className='home-container'>
         <div className="home-content">
           <Switch>
-            <Route path='/home/main' render={()=><div>home</div>}/>
-            <Route path='/home/info' render={()=><div>info</div>}/>
-            <Route path='/home/chat' render={()=><div>chat</div>}/>
-            <Route path='/home/my' render={()=><div>my</div>}/>
+            <Route path='/home/main' component={Main}/>
+            <Route path='/home/info' component={Info}/>
+            <Route path='/home/chat' component={Chat}/>
+            <Route path='/home/my'  component={My}/>
           </Switch>
         </div>
         <div className="home-menu">
@@ -60,4 +65,4 @@ class Main extends React.Component {
   }
 }
 
-export default Main;
+export default Home;
