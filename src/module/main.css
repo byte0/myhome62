@@ -1,0 +1,23 @@
+.home-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.home-container .home-menu {
+  position: absolute;
+  bottom: 0;
+  height: 70px;
+  line-height: 70px;
+  width: 100%;
+}
+
+.home-container .home-content {
+  position: absolute;
+  bottom: 70px;
+  width: 100%;
+  height: 100%;
+  background-color: orange;
+}
