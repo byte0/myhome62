@@ -5,6 +5,11 @@ import 'semantic-ui-css/semantic.min.css'
 
 import Login from './login';
 import Main from './module/main';
+import AuthCheck from './auth';
+
+function Info() {
+  return <div>Info</div>;
+}
 
 class App extends Component {
   render() {
@@ -13,6 +18,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Login}/>
           <Route path="/home" component={Main}/>
+          <AuthCheck path='/abc' component={Info}/>
         </Switch>
       </BrowserRouter>
     );
