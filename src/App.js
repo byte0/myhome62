@@ -8,6 +8,11 @@ import Login from './login';
 import Main from './module/main';
 import AuthCheck from './auth';
 
+import cfg from './common';
+import axios from 'axios';
+// 设置axios的基准路径
+axios.defaults.baseURL = cfg.baseURL;
+
 function Info() {
   return <div>Info</div>;
 }

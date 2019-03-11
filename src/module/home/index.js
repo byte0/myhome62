@@ -15,7 +15,7 @@ class Main extends React.Component {
 
   componentDidMount() {
     // 调用接口加载数据
-    axios.post('http://47.96.21.88:8086/homes/swipe').then(res=>{
+    axios.post('homes/swipe').then(res=>{
       this.setState({
         swipe: res.data.data.list
       });

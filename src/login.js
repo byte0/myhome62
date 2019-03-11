@@ -31,8 +31,7 @@ class Login extends React.Component {
     // 跳转到主页面
     // console.log(this.state.username)
     // console.log(this.state.password)
-    let url = 'http://47.96.21.88:8086/users/login';
-    let ret = await axios.post(url, {
+    let ret = await axios.post('users/login', {
       uname: this.state.username,
       pwd: this.state.password
     });
