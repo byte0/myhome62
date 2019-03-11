@@ -36,19 +36,22 @@ class Main extends React.Component {
     }
   }
 
+
+  loadData = (pathName, dataName) => {
+    axios.post(pathName).then(res=>{
+      this.setState({
+        // ES6支持对象属性名是动态的
+        [dataName]: res.data.data.list
+      });
+    });
+  }
+
   componentDidMount() {
     // 调用接口加载轮播图数据
-    axios.post('homes/swipe').then(res=>{
-      this.setState({
-        swipe: res.data.data.list
-      });
-    });
+    this.loadData('/homes/swipe', 'swipe');
     // 调用接口加载菜单数据
-    axios.post('homes/menu').then(res=>{
-      this.setState({
-        menu: res.data.data.list
-      });
-    });
+    this.loadData('/homes/menu', 'menu');
+    
   }
 
   render() {
