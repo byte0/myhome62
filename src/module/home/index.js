@@ -1,9 +1,10 @@
 import React from 'react';
-import { Input, Grid, Icon } from 'semantic-ui-react';
+import { Input, Grid, Icon, Item } from 'semantic-ui-react';
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css";
 import './index.css';
 import axios from 'axios';
+import cfg from '../../common';
 
 // 菜单组件
 function Menu(props) {
@@ -27,15 +28,41 @@ function Menu(props) {
   );
 }
 
+// 资讯组件
+function Info(props) {
+  let {infoData} = props;
+  let infoContent = infoData.map(item=>{
+    return (
+      <Item.Header key={item.id}>
+        <span>限购 ●</span>
+        <span>{item.info_title}</span>
+      </Item.Header>
+    );
+  });
+  return (
+    <Item.Group unstackable>
+      <Item className='home-msg-img' >
+        <Item.Image size='tiny' src={cfg.baseURL + 'public/zixun.png'} />
+        <Item.Content verticalAlign='top'>
+          {infoContent}
+          <div className="home-msg-more">
+            <Icon name='angle right' size='big' />
+          </div>
+        </Item.Content>
+      </Item>
+    </Item.Group>
+  );
+}
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       swipe: [],
-      menu: []
+      menu: [],
+      info: []
     }
   }
-
 
   loadData = (pathName, dataName) => {
     axios.post(pathName).then(res=>{
@@ -51,6 +78,8 @@ class Main extends React.Component {
     this.loadData('/homes/swipe', 'swipe');
     // 调用接口加载菜单数据
     this.loadData('/homes/menu', 'menu');
+    // 调用接口加载资讯数据
+    this.loadData('/homes/info', 'info');
     
   }
 
@@ -71,6 +100,10 @@ class Main extends React.Component {
           {/*菜单*/}
           <div>
             <Menu menuData={this.state.menu}/>
+          </div>
+          {/*资讯*/}
+          <div className="home-msg">
+            <Info infoData={this.state.info}/>
           </div>
 
         </div>
