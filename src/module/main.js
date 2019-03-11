@@ -33,8 +33,8 @@ function Menu(props) {
 class Home extends React.Component {
   render() {
     return (
-      <div className='home-container'>
-        <div className="home-content">
+      <div className='main-container'>
+        <div className="main-content">
           <Switch>
             <Route path='/home/main' component={Main}/>
             <Route path='/home/info' component={Info}/>
@@ -42,7 +42,7 @@ class Home extends React.Component {
             <Route path='/home/my'  component={My}/>
           </Switch>
         </div>
-        <div className="home-menu">
+        <div className="main-menu">
           <Grid columns={4} divided>
             <Grid.Row>
               <Grid.Column>

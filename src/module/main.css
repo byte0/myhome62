@@ -1,4 +1,4 @@
-.home-container {
+.main-container {
   position: absolute;
   left: 0;
   top: 0;
@@ -7,7 +7,7 @@
   overflow: hidden;
 }
 
-.home-container .home-menu {
+.main-container .main-menu {
   position: absolute;
   bottom: 0;
   height: 70px;
@@ -16,7 +16,7 @@
   text-align: center;
 }
 
-.home-container .home-content {
+.main-container .main-content {
   position: absolute;
   top: 0;
   bottom: 70px;
