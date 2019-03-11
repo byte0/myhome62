@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Grid, Icon, Item, Button } from 'semantic-ui-react';
+import { Input, Grid, Icon, Item, Button, Dimmer, Loader } from 'semantic-ui-react';
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css";
 import './index.css';
@@ -153,36 +153,61 @@ class Main extends React.Component {
       menu: [],
       info: [],
       faq: [],
-      house: []
+      house: [],
+      loadFlag: true // 控制遮罩层显示或者隐藏
     }
   }
 
   loadData = (pathName, dataName) => {
-    axios.post(pathName).then(res=>{
-      this.setState({
-        // ES6支持对象属性名是动态的
-        [dataName]: res.data.data.list
-      });
+    // 该返回值是promise实例对象
+    return axios.post(pathName).then(res=>{
+      // this.setState({
+      //   // ES6支持对象属性名是动态的
+      //   [dataName]: res.data.data.list
+      // });
+      // then中的return数据用于传递给下一个then获取
+      return res.data.data.list;
     });
   }
 
   componentDidMount() {
     // 调用接口加载轮播图数据
-    this.loadData('/homes/swipe', 'swipe');
+    let swipe = this.loadData('/homes/swipe', 'swipe');
     // 调用接口加载菜单数据
-    this.loadData('/homes/menu', 'menu');
+    let menu = this.loadData('/homes/menu', 'menu');
     // 调用接口加载资讯数据
-    this.loadData('/homes/info', 'info');
+    let info = this.loadData('/homes/info', 'info');
     // 调用接口加载问答数据
-    this.loadData('/homes/faq', 'faq');
+    let faq = this.loadData('/homes/faq', 'faq');
     // 调用接口加载房源数据
-    this.loadData('/homes/house', 'house');
+    let house = this.loadData('/homes/house', 'house');
+    // 控制遮罩层隐藏,
+    // 如何保证加载的结果都已经返回了吗？
+    // Promise.all([p1,p2,p3]).then(res=>{res});
+    Promise.all([swipe, menu, info, faq, house]).then(ret=>{
+      // 这里进行数据更新操作
+      this.setState({
+        swipe: ret[0],
+        menu: ret[1],
+        info: ret[2],
+        faq: ret[3],
+        house: ret[4],
+      }, () => {
+        // 隐藏遮罩层
+        this.setState({
+          loadFlag: false
+        });
+      });
+    });
   }
 
   render() {
     
     return (
       <div className='home-container'>
+        <Dimmer inverted active={this.state.loadFlag} page>
+          <Loader>Loading</Loader>
+        </Dimmer>
         <div className="home-topbar">
           <Input fluid icon='search' placeholder='请输入搜索内容...' />
         </div>
