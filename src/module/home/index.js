@@ -5,6 +5,28 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import './index.css';
 import axios from 'axios';
 
+// 菜单组件
+function Menu(props) {
+  let {menuData} = props;
+  let menuContent = menuData.map(item=>{
+    return (
+      <Grid.Column key={item.id}>
+        <div className='home-menu-item'>
+          <Icon name='home' size='big' />
+        </div>
+        <div>{item.menu_name}</div>
+      </Grid.Column>
+    );
+  });
+  return (
+    <Grid columns={4} divided>
+      <Grid.Row>
+        {menuContent}
+      </Grid.Row>
+    </Grid>
+  );
+}
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -30,16 +52,7 @@ class Main extends React.Component {
   }
 
   render() {
-    let menuContent = this.state.menu.map(item=>{
-      return (
-        <Grid.Column key={item.id}>
-          <div className='home-menu-item'>
-            <Icon name='home' size='big' />
-          </div>
-          <div>{item.menu_name}</div>
-        </Grid.Column>
-      );
-    });
+    
     return (
       <div className='home-container'>
         <div className="home-topbar">
@@ -53,11 +66,9 @@ class Main extends React.Component {
             showThumbnails={false}
             items={this.state.swipe} />
           {/*菜单*/}
-          <Grid columns={4} divided>
-            <Grid.Row>
-              {menuContent}
-            </Grid.Row>
-          </Grid>
+          <div>
+            <Menu menuData={this.state.menu}/>
+          </div>
 
         </div>
       </div>
