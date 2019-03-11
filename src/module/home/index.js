@@ -87,6 +87,64 @@ function Faq(props) {
   ); 
 }
 
+// 房源组件
+function House(props) {
+  let {houseData} = props;
+  let newHouse = [];
+  let oldHouse = [];
+  let hireHouse = [];
+  houseData.forEach(item=>{
+    let houseItem = (
+      <Item key={item.id}>
+        <Item.Image src={cfg.baseURL+'public/home.png'}/>
+        <Item.Content>
+          <Item.Header>{item.home_name}</Item.Header>
+          <Item.Meta>
+            <span className='cinema'>{item.home_desc}</span>
+          </Item.Meta>
+          <Item.Description>
+            {item.home_tags.split(',').map((tag,index)=>{return <Button key={index} basic color='green' size='mini'>{tag}</Button>})}
+          </Item.Description>
+          <Item.Description>{item.home_price}</Item.Description>
+        </Item.Content>
+      </Item>
+    );
+    // 根据home_type进行分类：1、表示新房；2、表示二手房；3、表示租房
+    if(item.home_type === 1) {
+      // 新房
+      newHouse.push(houseItem);
+    }else if(item.home_type === 2) {
+      // 二手房
+      oldHouse.push(houseItem);
+    }else{
+      // 租房
+      hireHouse.push(houseItem);
+    }
+  });
+  return (
+    <div>
+      <div>
+        <div className='home-hire-title'>最新开盘</div>
+        <Item.Group divided unstackable>
+          {newHouse}
+        </Item.Group>
+      </div>
+      <div>
+        <div className='home-hire-title'>二手精选</div>
+        <Item.Group divided unstackable>
+          {oldHouse}
+        </Item.Group>
+      </div>
+      <div>
+        <div className='home-hire-title'>组一个家</div>
+        <Item.Group divided unstackable>
+          {hireHouse}
+        </Item.Group>
+      </div>
+    </div>
+  );
+}
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -94,7 +152,8 @@ class Main extends React.Component {
       swipe: [],
       menu: [],
       info: [],
-      faq: []
+      faq: [],
+      house: []
     }
   }
 
@@ -116,6 +175,8 @@ class Main extends React.Component {
     this.loadData('/homes/info', 'info');
     // 调用接口加载问答数据
     this.loadData('/homes/faq', 'faq');
+    // 调用接口加载房源数据
+    this.loadData('/homes/house', 'house');
   }
 
   render() {
@@ -144,7 +205,10 @@ class Main extends React.Component {
           <div>
             <Faq faqData={this.state.faq}/>
           </div>
-
+          {/*房源*/}
+          <div>
+            <House houseData={this.state.house}/>
+          </div>
         </div>
       </div>
     );
