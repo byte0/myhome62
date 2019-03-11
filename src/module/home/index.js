@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Grid, Icon, Item } from 'semantic-ui-react';
+import { Input, Grid, Icon, Item, Button } from 'semantic-ui-react';
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css";
 import './index.css';
@@ -54,13 +54,47 @@ function Info(props) {
   );
 }
 
+// 问答组件
+function Faq(props) {
+  let {faqData} = props;
+  let faqContent = faqData.map(item=>{
+    // 把逗号分隔形式的字符串分隔成数组
+    let arr = item.question_tag.split(',');
+    // 根据数组的内容生成Button按钮
+    let btns = arr.map((item,index)=>{
+      return <Button key={index} basic color='green' size='mini'>{item}</Button>
+    });
+    return (
+      <li key={item.question_id}>
+        <div>
+          <Icon name='question circle outline' />
+          <span>{item.question_name}</span>
+        </div>
+        <div>
+          {btns}
+          <div>{item.atime} ● <Icon name='comment alternate outline' /> {item.qnum}</div>
+        </div>
+      </li>
+    );
+  });
+  return (
+    <div className='home-ask'>
+      <div className='home-ask-title'>好客问答</div>
+      <ul>
+        {faqContent}
+      </ul>
+    </div>
+  ); 
+}
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       swipe: [],
       menu: [],
-      info: []
+      info: [],
+      faq: []
     }
   }
 
@@ -80,7 +114,8 @@ class Main extends React.Component {
     this.loadData('/homes/menu', 'menu');
     // 调用接口加载资讯数据
     this.loadData('/homes/info', 'info');
-    
+    // 调用接口加载问答数据
+    this.loadData('/homes/faq', 'faq');
   }
 
   render() {
@@ -104,6 +139,10 @@ class Main extends React.Component {
           {/*资讯*/}
           <div className="home-msg">
             <Info infoData={this.state.info}/>
+          </div>
+          {/*问答*/}
+          <div>
+            <Faq faqData={this.state.faq}/>
           </div>
 
         </div>
