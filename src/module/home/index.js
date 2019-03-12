@@ -1,6 +1,7 @@
 import React from 'react';
 import { Input, Grid, Icon, Item, Button, Dimmer, Loader } from 'semantic-ui-react';
 import ImageGallery from 'react-image-gallery';
+import { withRouter } from 'react-router-dom';
 import "react-image-gallery/styles/css/image-gallery.css";
 import './index.css';
 import axios from 'axios';
@@ -8,23 +9,24 @@ import cfg from '../../common';
 
 // 菜单组件
 function Menu(props) {
+  let {menuData, history} = props;
   // 在函数组件中没有this
   let handle = (mname) => {
     // 要区分不同的点击按钮
+    // 如何在这里控制路由跳转？通过编程式路由history.push()
     switch(mname){
-        case '二手房':
-          console.log('new')
-          break;
-        case '新房':
-          console.log('old')
-          break;
-        default:
-          console.log('other');
-          break;
+      case '二手房':
+        history.push('/');
+        break;
+      case '新房':
+        console.log('old')
+        break;
+      default:
+        console.log('other');
+        break;
           
     }
   }
-  let {menuData} = props;
   let menuContent = menuData.map(item=>{
     return (
       <Grid.Column onClick={handle.bind(null, item.menu_name)} key={item.id}>
@@ -218,7 +220,7 @@ class Main extends React.Component {
   }
 
   render() {
-    
+    let { history } = this.props;
     return (
       <div className='home-container'>
         <Dimmer inverted active={this.state.loadFlag} page>
@@ -236,7 +238,7 @@ class Main extends React.Component {
             items={this.state.swipe} />
           {/*菜单*/}
           <div>
-            <Menu menuData={this.state.menu}/>
+            <Menu history={history} menuData={this.state.menu}/>
           </div>
           {/*资讯*/}
           <div className="home-msg">
@@ -256,4 +258,4 @@ class Main extends React.Component {
   }
 }
 
-export default Main;
+export default withRouter(Main);
