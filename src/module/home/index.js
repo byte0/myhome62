@@ -16,10 +16,10 @@ function Menu(props) {
     // 如何在这里控制路由跳转？通过编程式路由history.push()
     switch(mname){
       case '二手房':
-        history.push('/');
+        history.push('/home/list', {query: {mname: mname, type: 1}});
         break;
       case '新房':
-        console.log('old')
+        history.push('/home/list', {query: {mname: mname, type: 2}});
         break;
       default:
         console.log('other');
