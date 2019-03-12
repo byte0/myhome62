@@ -18,6 +18,11 @@ class Hlist extends React.Component {
     history.goBack();
   }
 
+  componentWillUnmount() {
+    // 回收一些资源
+    console.log('out')
+  }
+
   componentDidMount = async () => {
     // 调用后台接口获取列表数据
     let type = this.props.location.state.query.type;

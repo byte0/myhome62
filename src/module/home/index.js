@@ -27,10 +27,12 @@ function Menu(props) {
       case '海外':
         history.push('/home/list', {query: {mname: mname, type: 4}});
         break;
+      case '计算器':
+        history.push('/home/calc');
+        break;
       default:
         console.log('other');
         break;
-          
     }
   }
   let menuContent = menuData.map(item=>{
