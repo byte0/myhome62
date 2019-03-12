@@ -21,6 +21,12 @@ function Menu(props) {
       case '新房':
         history.push('/home/list', {query: {mname: mname, type: 2}});
         break;
+      case '租房':
+        history.push('/home/list', {query: {mname: mname, type: 3}});
+        break;
+      case '海外':
+        history.push('/home/list', {query: {mname: mname, type: 4}});
+        break;
       default:
         console.log('other');
         break;
