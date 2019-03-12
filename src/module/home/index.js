@@ -8,10 +8,26 @@ import cfg from '../../common';
 
 // 菜单组件
 function Menu(props) {
+  // 在函数组件中没有this
+  let handle = (mname) => {
+    // 要区分不同的点击按钮
+    switch(mname){
+        case '二手房':
+          console.log('new')
+          break;
+        case '新房':
+          console.log('old')
+          break;
+        default:
+          console.log('other');
+          break;
+          
+    }
+  }
   let {menuData} = props;
   let menuContent = menuData.map(item=>{
     return (
-      <Grid.Column key={item.id}>
+      <Grid.Column onClick={handle.bind(null, item.menu_name)} key={item.id}>
         <div className='home-menu-item'>
           <Icon name='home' size='big' />
         </div>
