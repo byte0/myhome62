@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon, Tab, Grid, Dropdown, Input, Button } from 'semantic-ui-react';
 import ReactEcharts from 'echarts-for-react';
+import { withRouter } from 'react-router-dom';
 
 // 自定义组件，实现图表效果
 class Mychart extends React.Component {
@@ -194,6 +195,11 @@ class First extends React.Component {
 }
 
 class Calc extends React.Component {
+  handle = () => {
+    // 完成路由回退：主页
+    let {history} = this.props;
+    history.goBack();
+  }
   render() {
     const panes = [
       { menuItem: '公积金贷款', render: () => <Tab.Pane><First/></Tab.Pane> },
@@ -203,7 +209,7 @@ class Calc extends React.Component {
     return (
       <div className='home-calc'>
         <div className = "home-calc-title">
-          <Icon name = 'angle left' size = 'large'/>贷款利率计算 
+          <Icon onClick={this.handle} name = 'angle left' size = 'large'/>贷款利率计算 
         </div> 
         <div className = "map-calc-content">
           <Tab panes={panes}/>
@@ -213,4 +219,4 @@ class Calc extends React.Component {
   }
 }
 
-export default Calc;
+export default withRouter(Calc);
