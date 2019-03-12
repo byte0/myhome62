@@ -4,6 +4,15 @@ import ReactEcharts from 'echarts-for-react';
 
 // 自定义组件，实现图表效果
 class Mychart extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [
+        {value:335, name:'贷款总额'},
+        {value:310, name:'支付利息'}
+      ]
+    }
+  }
   getOption = () => {
     // 这里产生一个option对象，该对象实际上就是echarts中的option
     let option = {
@@ -25,10 +34,7 @@ class Mychart extends React.Component {
         type: 'pie',
         radius : '55%',
         center: ['50%', '60%'],
-        data:[
-          {value:335, name:'贷款总额'},
-          {value:310, name:'支付利息'}
-        ],
+        data: this.state.data,
         itemStyle: {
           emphasis: {
             shadowBlur: 10,
@@ -41,9 +47,35 @@ class Mychart extends React.Component {
     return option;
   }
 
+  calculate = () => {
+    // 修改图表数据:图表数据的变化并不会引起图表的效果刷新
+    // 必须显示的调用echarts实例对象的setOption方法触发图表刷新
+    let arr = [...this.state.data];
+    arr[0].value = 1000;
+    this.setState({
+      data: arr
+    }, ()=>{
+      // 触发echarts图表的更新
+      let opt = this.getOption();
+      // chartRef表示组件的实例对象（非受控组件的用法）
+      // getEchartsInstance() 用于获取echarts实例对象
+      // echarts.setOption() 用于实现图表效果的刷新
+      this.chartRef.getEchartsInstance().setOption(opt);
+    });
+  }
+
   render() {
     return (
-      <ReactEcharts option={this.getOption()}/>
+      <div>
+        <Grid.Row>
+          <Grid.Column width={16}>
+            <Button onClick={this.calculate} fluid color='green'>计算</Button>
+          </Grid.Column>
+        </Grid.Row>
+        <ReactEcharts
+          ref={(e) => { this.chartRef = e; }}
+          option={this.getOption()}/>
+      </div>
     );
   }
 }
@@ -72,7 +104,6 @@ class First extends React.Component {
     console.log(this.state.rate)
     console.log(this.state.year)
   }
-
 
   // handleChange = (e, { value }) => this.setState({ value })
   handleType = (e, {value}) => {
@@ -152,11 +183,6 @@ class First extends React.Component {
           </Grid.Column>
           <Grid.Column width={10}>
             <Dropdown value={this.state.rate} onChange={this.handleRate}  fluid selection options={rates}/>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column width={16}>
-            <Button onClick={this.calculate} fluid color='green'>计算</Button>
           </Grid.Column>
         </Grid.Row>
         <div className="calc-chart">
