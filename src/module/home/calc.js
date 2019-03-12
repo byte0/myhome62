@@ -1,5 +1,52 @@
 import React from 'react';
 import { Icon, Tab, Grid, Dropdown, Input, Button } from 'semantic-ui-react';
+import ReactEcharts from 'echarts-for-react';
+
+// 自定义组件，实现图表效果
+class Mychart extends React.Component {
+  getOption = () => {
+    // 这里产生一个option对象，该对象实际上就是echarts中的option
+    let option = {
+      title : {
+        text: '贷款数据统计',
+        x:'center'
+      },
+      tooltip : {
+        trigger: 'item',
+        formatter: "{c}"
+      },
+      legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: ['贷款总额','支付利息']
+      },
+      series : [{
+        name: '访问来源',
+        type: 'pie',
+        radius : '55%',
+        center: ['50%', '60%'],
+        data:[
+          {value:335, name:'贷款总额'},
+          {value:310, name:'支付利息'}
+        ],
+        itemStyle: {
+          emphasis: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }
+      }]
+    };
+    return option;
+  }
+
+  render() {
+    return (
+      <ReactEcharts option={this.getOption()}/>
+    );
+  }
+}
 
 class First extends React.Component {
   constructor(props) {
@@ -112,6 +159,9 @@ class First extends React.Component {
             <Button onClick={this.calculate} fluid color='green'>计算</Button>
           </Grid.Column>
         </Grid.Row>
+        <div className="calc-chart">
+          <Mychart/>
+        </div>
       </Grid>
     );
   }
