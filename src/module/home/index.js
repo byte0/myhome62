@@ -30,6 +30,9 @@ function Menu(props) {
       case '计算器':
         history.push('/home/calc');
         break;
+      case '地图找房':
+        history.push('/home/map');
+        break;
       default:
         console.log('other');
         break;
@@ -245,7 +248,7 @@ class Main extends React.Component {
             showThumbnails={false}
             items={this.state.swipe} />
           {/*菜单*/}
-          <div>
+          <div className='home-menu'>
             <Menu history={history} menuData={this.state.menu}/>
           </div>
           {/*资讯*/}

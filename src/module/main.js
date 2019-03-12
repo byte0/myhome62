@@ -11,6 +11,7 @@ import Chat from './chat/index';
 import My from './my/index';
 import Hlist from './home/hlist';
 import Calc from './home/calc';
+import Mymap from './home/map';
 
 // 自定义链接样式:只要有链接触发，children对应的函数就会调用
 function Menu(props) {
@@ -44,6 +45,7 @@ class Home extends React.Component {
             <Route path='/home/my'  component={My}/>
             <Route path='/home/list'  component={Hlist}/>
             <Route path='/home/calc'  component={Calc}/>
+            <Route path='/home/map'  component={Mymap}/>
           </Switch>
         </div>
         <div className="main-menu">
