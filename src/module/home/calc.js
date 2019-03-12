@@ -49,10 +49,12 @@ class Mychart extends React.Component {
   }
 
   calculate = () => {
+    // 获取父组件传递过来的数据
+    let { total } = this.props;
     // 修改图表数据:图表数据的变化并不会引起图表的效果刷新
     // 必须显示的调用echarts实例对象的setOption方法触发图表刷新
     let arr = [...this.state.data];
-    arr[0].value = 1000;
+    arr[0].value = 1000 * total;
     this.setState({
       data: arr
     }, ()=>{
@@ -187,7 +189,7 @@ class First extends React.Component {
           </Grid.Column>
         </Grid.Row>
         <div className="calc-chart">
-          <Mychart/>
+          <Mychart total={this.state.total}/>
         </div>
       </Grid>
     );
