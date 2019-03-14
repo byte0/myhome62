@@ -18,7 +18,7 @@ class LoadMore extends React.Component {
   }
   
   // 通用列表加载方法封装
-  loadData = async () => {
+  loadData = async (flag) => {
     let {param} = this.props;
     let {pagenum, pagesize} = this.state;
     // 加载数据列表
@@ -27,16 +27,26 @@ class LoadMore extends React.Component {
       pagenum: pagenum,
       pagesize: pagesize
     });
+
+    let arr = [...this.state.listData];
+    // 判断是刷新还是加载更多
+    if(flag === 1) {
+      // 刷新:覆盖原来的
+      arr = [...ret.data.data.list.data];
+    }else{
+      // 加载更多：在原来的基础上添加
+      arr.push(...ret.data.data.list.data);
+    }
     // 更新数据
     this.setState({
-      listData: ret.data.data.list.data,
+      listData: arr,
       total: ret.data.data.list.total,
       initializing: 2
     });
   }
 
   componentDidMount = async () => {
-    this.loadData();
+    this.loadData(1);
   }
 
   // 实现刷新操作：本质上就是把pagenum重置为0，然后刷新数据
@@ -46,16 +56,23 @@ class LoadMore extends React.Component {
       pagenum: 0
     }, () => {
       // 刷新列表,必须在回调函数中进行
-      this.loadData();
+      this.loadData(1);
     });
     // 必须显示的调用resolve，表示任务完成
     resolve();
   }
 
-  // 实现加载更多操作
+  // 实现加载更多操作:就是每次加载，要累加pagenum，并且每次加载要更新listData;还要处理hasMore判断是否还有更多数据
   loadMore = (resolve) => {
     console.log('loadMore')
-
+    let pn = this.state.pagenum + this.state.pagesize;
+    this.setState({
+      pagenum: pn,
+      hasMore: pn < this.state.total
+    }, () => {
+      // 重新加载列表
+      this.loadData(2);
+    });
     // 必须显示的调用resolve，表示任务完成
     resolve();
   }
