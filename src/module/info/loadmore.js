@@ -1,6 +1,6 @@
 import React from 'react';
 import Tloader from 'react-touch-loader';
-import { Item } from 'semantic-ui-react';
+import { Item, Icon } from 'semantic-ui-react';
 import './loadmore.css';
 import axios from 'axios';
 
@@ -94,6 +94,34 @@ class LoadMore extends React.Component {
               </Item.Meta>
             </Item.Content>
           </Item>
+        );
+      }else if(type === 3) {
+        // 问答模块
+        itemInfo = (
+          <li key={item.id}>
+            <div className='title'>
+              <span className='cate'>
+                <Icon color='green' name='users' size='small' />
+                思维
+              </span>
+              <span>
+                {item.question_name}
+              </span>
+            </div>
+            {item.answer_content&&(
+              <div className='user'>
+                <Icon circular name='users' size='mini'/>
+                {item.username} 的回答
+              </div>
+            )}
+            <div className="info">
+              {item.answer_content}
+            </div>
+            <div className="tag">
+              {item.question_tag&&item.question_tag.split(',').map((tag,index)=>{return <span key={index}>{tag}X</span>})}
+              <span>{item.qnum?item.qnum:0}个回答</span>
+            </div>
+          </li>
         );
       }
       listContent.push(itemInfo);
