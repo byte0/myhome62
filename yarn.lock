@@ -7014,6 +7014,10 @@ react-swipeable@^4.3.2:
     detect-passive-events "^1.0.4"
     prop-types "^15.5.8"
 
+react-touch-loader@^1.1.4:
+  version "1.1.4"
+  resolved "http://registry.npm.taobao.org/react-touch-loader/download/react-touch-loader-1.1.4.tgz#ccd49012b645d2492113178684f9f4ecae742ab6"
+
 react@^16.8.4:
   version "16.8.4"
   resolved "http://registry.npm.taobao.org/react/download/react-16.8.4.tgz#fdf7bd9ae53f03a9c4cd1a371432c206be1c4768"
