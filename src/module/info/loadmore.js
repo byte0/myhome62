@@ -29,18 +29,21 @@ class LoadMore extends React.Component {
     // 更新数据
     this.setState({
       listData: ret.data.data.list.data,
-      total: ret.data.data.list.total
+      total: ret.data.data.list.total,
+      initializing: 2
     });
   }
 
   // 实现刷新操作
   refresh = (resolve) => {
     console.log('refresh')
+    resolve();
   }
 
   // 实现加载更多操作
   loadMore = (resolve) => {
     console.log('loadMore')
+    resolve();
   }
 
   // 生成列表内容
@@ -69,7 +72,7 @@ class LoadMore extends React.Component {
 
   render() {
     let { hasMore, initializing } = this.state;
-    let { type } = this.props;
+    let { param } = this.props;
     return (
       <div className="view">
         <Tloader className="main"
@@ -78,7 +81,7 @@ class LoadMore extends React.Component {
           hasMore={hasMore}
           initializing={initializing}>
           <ul>
-            {this.produceList(type)}
+            {this.produceList(param.type)}
           </ul>
         </Tloader>
       </div>
