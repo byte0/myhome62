@@ -16,8 +16,9 @@ class LoadMore extends React.Component {
       total: 0         // 列表总长度
     }
   }
-
-  componentDidMount = async () => {
+  
+  // 通用列表加载方法封装
+  loadData = async () => {
     let {param} = this.props;
     let {pagenum, pagesize} = this.state;
     // 加载数据列表
@@ -34,15 +35,28 @@ class LoadMore extends React.Component {
     });
   }
 
-  // 实现刷新操作
+  componentDidMount = async () => {
+    this.loadData();
+  }
+
+  // 实现刷新操作：本质上就是把pagenum重置为0，然后刷新数据
   refresh = (resolve) => {
     console.log('refresh')
+    this.setState({
+      pagenum: 0
+    }, () => {
+      // 刷新列表,必须在回调函数中进行
+      this.loadData();
+    });
+    // 必须显示的调用resolve，表示任务完成
     resolve();
   }
 
   // 实现加载更多操作
   loadMore = (resolve) => {
     console.log('loadMore')
+
+    // 必须显示的调用resolve，表示任务完成
     resolve();
   }
 
