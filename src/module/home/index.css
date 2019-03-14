@@ -18,6 +18,7 @@
   height: 100%;
   padding-top: 0px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .home-content::-webkit-scrollbar{
   width: 3px;
