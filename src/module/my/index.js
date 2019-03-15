@@ -54,6 +54,17 @@ class CropImageModal extends React.Component {
       scale: num
     });
   }
+  setEditorRef = (editor) => {
+    // editor表示裁切组件的实例对象
+    this.editor = editor;
+  }
+  submit = () => {
+    // 获取裁切图片的内容
+    let image = this.editor.getImageScaledToCanvas();
+    // toDataURL方法可以把图片转换为base64编码
+    let imgContent = image.toDataURL();
+    console.log(imgContent)
+  }
   render() {
     let { open, close, avatar } = this.props;
     return (
@@ -62,6 +73,7 @@ class CropImageModal extends React.Component {
           <Modal.Header>裁切图片</Modal.Header>
           <Modal.Content>
             <AvatarEditor
+              ref={this.setEditorRef}
               borderRadius={75}
               width={150}
               height={150}
@@ -85,7 +97,7 @@ class CropImageModal extends React.Component {
             </div>
           </Modal.Content>
           <Modal.Actions>
-            <Button positive icon='checkmark' labelPosition='right' content='确定' />
+            <Button onClick={this.submit} positive icon='checkmark' labelPosition='right' content='确定' />
           </Modal.Actions>
         </Modal>
       </div>
