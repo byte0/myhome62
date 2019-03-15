@@ -37,6 +37,7 @@ class Login extends React.Component {
     });
     // 存储token
     sessionStorage.setItem('mytoken', ret.data.data.token);
+    sessionStorage.setItem('uid', ret.data.data.uid);
     // 获取history对象
     let {history} = this.props;
     // 跳转到主页
