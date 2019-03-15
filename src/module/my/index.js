@@ -1,15 +1,36 @@
 import React from 'react';
 import cfg from '../../common';
-import { Grid, Icon, Button } from 'semantic-ui-react';
+import { Grid, Icon, Button, Modal } from 'semantic-ui-react';
 import './index.css';
 import axios from 'axios';
+
+// 选择图片弹窗封装
+class SelectImageModal extends React.Component {
+  render() {
+    let { open, close } = this.props;
+    return (
+      <div>
+        <Modal size='small' open={open} onClose={close}>
+          <Modal.Header>选择图片</Modal.Header>
+          <Modal.Content>
+            <input type="file" />
+          </Modal.Content>
+          <Modal.Actions>
+            <Button positive icon='checkmark' labelPosition='right' content='确定' />
+          </Modal.Actions>
+        </Modal>
+      </div>
+    );
+  }
+}
 
 class My extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       avatarPath: '',
-      uname: ''
+      uname: '',
+      imageFlag: false, // 控制选择图片弹窗的显示和隐藏
     }
   }
 
@@ -26,14 +47,29 @@ class My extends React.Component {
     });
   }
 
+  // 隐藏选择图片的弹窗
+  closeImageModal = () => {
+    this.setState({
+      imageFlag: false
+    });
+  }
+
+  // 显示选择图片的弹窗
+  showImageModal = () => {
+    this.setState({
+      imageFlag: true
+    });
+  }
+
   render() {
     return (
       <div className='my-container'>
+        <SelectImageModal open={this.state.imageFlag} close={this.closeImageModal}/>
         <div className='my-title'>
           <img src={cfg.baseURL+'public/my-bg.png'} alt='me'/>
           <div className="info">
             <div className="myicon">
-              <img src={this.state.avatarPath} alt="icon"/>
+              <img onClick={this.showImageModal} src={this.state.avatarPath} alt="icon"/>
             </div>
             <div className='name'>{this.state.uname}</div>
             <Button color='green' size='mini'>已认证</Button>
