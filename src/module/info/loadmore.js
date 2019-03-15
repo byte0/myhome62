@@ -1,8 +1,33 @@
 import React from 'react';
 import Tloader from 'react-touch-loader';
-import { Item, Icon, Button } from 'semantic-ui-react';
+import { Item, Icon, Button, Modal, TextArea } from 'semantic-ui-react';
 import './loadmore.css';
 import axios from 'axios';
+
+// 封装弹窗组件
+class QuestionModal extends React.Component {
+
+  render() {
+    // open是状态位：控制弹窗的显示或者隐藏
+    // close是一个函数，隐藏弹窗的时候触发
+    let { open, close } = this.props;
+    return (
+      <div>
+        <Modal size='small' open={open} onClose={close}>
+          <Modal.Header>发表评论</Modal.Header>
+          <Modal.Content>
+            <TextArea style={{width:'100%'}} placeholder='Tell us more' />
+          </Modal.Content>
+          <Modal.Actions>
+            <Button negative onClick={close}>取消</Button>
+            <Button positive icon='checkmark' labelPosition='right' content='发表' />
+          </Modal.Actions>
+        </Modal>
+      </div>
+    );
+  }
+
+}
 
 class LoadMore extends React.Component {
   constructor(props) {
@@ -13,8 +38,23 @@ class LoadMore extends React.Component {
       pagenum: 0,      // 开始的记录条数
       pagesize: 2,     // 每次加载条数
       listData: [],    // 列表数据
-      total: 0         // 列表总长度
+      total: 0,        // 列表总长度
+      openFlag: false, // 控制弹窗显示或者隐藏
     }
+  }
+
+  // 关闭弹窗
+  closeWindow = () => {
+    this.setState({
+      openFlag: false
+    });
+  }
+
+  // 显示弹窗
+  showWindow = () => {
+    this.setState({
+      openFlag: true
+    });
   }
   
   // 通用列表加载方法封装
@@ -136,8 +176,9 @@ class LoadMore extends React.Component {
     } else {
       return (
         <div>
+          <QuestionModal open={this.state.openFlag} close={this.closeWindow}/>
           <div className='info-ask-btn'>
-            <Button fluid color='green'>快速提问</Button>
+            <Button onClick={this.showWindow} fluid color='green'>快速提问</Button>
           </div>
           <ul className='info-ask-list'>{listContent}</ul>
         </div>
