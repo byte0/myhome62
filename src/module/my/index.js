@@ -6,6 +6,20 @@ import axios from 'axios';
 
 // 选择图片弹窗封装
 class SelectImageModal extends React.Component {
+  constructor(props) {
+    super(props);
+    // 建立file文件表单的引用
+    this.fileRef = React.createRef();
+  }
+
+  // 去裁切图片
+  toCropImage = () => {
+    // 获取上传图片的内容
+    let fileContent = this.fileRef.current.files[0];
+    // 关闭当前窗口，并且打开新的窗口
+    this.props.close(fileContent);
+  }
+
   render() {
     let { open, close } = this.props;
     return (
@@ -13,10 +27,10 @@ class SelectImageModal extends React.Component {
         <Modal size='small' open={open} onClose={close}>
           <Modal.Header>选择图片</Modal.Header>
           <Modal.Content>
-            <input type="file" />
+            <input type="file" ref={this.fileRef} />
           </Modal.Content>
           <Modal.Actions>
-            <Button positive icon='checkmark' labelPosition='right' content='确定' />
+            <Button onClick={this.toCropImage} positive icon='checkmark' labelPosition='right' content='确定' />
           </Modal.Actions>
         </Modal>
       </div>
@@ -31,6 +45,7 @@ class My extends React.Component {
       avatarPath: '',
       uname: '',
       imageFlag: false, // 控制选择图片弹窗的显示和隐藏
+      avatar: null,     // 表示文件的内容
     }
   }
 
@@ -48,10 +63,20 @@ class My extends React.Component {
   }
 
   // 隐藏选择图片的弹窗
-  closeImageModal = () => {
-    this.setState({
-      imageFlag: false
-    });
+  closeImageModal = (param) => {
+    // 这里要分清两种情况：得到了文件；没有得到文件
+    if(param&&param.name) {
+      // 得到了文件
+      this.setState({
+        imageFlag: false,
+        avatar: param
+      });
+    }else{
+      // 没有得到文件
+      this.setState({
+        imageFlag: false
+      });
+    }
   }
 
   // 显示选择图片的弹窗
