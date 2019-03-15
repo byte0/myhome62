@@ -6,6 +6,31 @@ import axios from 'axios';
 
 // 封装弹窗组件
 class QuestionModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      info: ''
+    }
+  }
+
+  handleInfo = (event) => {
+    this.setState({
+      info: event.target.value
+    });
+  }
+
+  submit = async () => {
+    // 完成提交
+    let ret = await axios.post('infos/question', {
+      question: this.state.info
+    });
+    if(ret.data.meta.status !== 200) {
+      // alert(ret.data.meta.msg);
+      alert('服务器发生错误，请与管理员联系 daniu@qq.com');
+    }
+    // 隐藏弹窗
+    this.props.close();
+  }
 
   render() {
     // open是状态位：控制弹窗的显示或者隐藏
@@ -16,11 +41,11 @@ class QuestionModal extends React.Component {
         <Modal size='small' open={open} onClose={close}>
           <Modal.Header>发表评论</Modal.Header>
           <Modal.Content>
-            <TextArea style={{width:'100%'}} placeholder='Tell us more' />
+            <TextArea value={this.state.info} onChange={this.handleInfo} style={{width:'100%'}} placeholder='Tell us more' />
           </Modal.Content>
           <Modal.Actions>
             <Button negative onClick={close}>取消</Button>
-            <Button positive icon='checkmark' labelPosition='right' content='发表' />
+            <Button positive onClick={this.submit} icon='checkmark' labelPosition='right' content='发表' />
           </Modal.Actions>
         </Modal>
       </div>
