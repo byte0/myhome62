@@ -58,12 +58,16 @@ class CropImageModal extends React.Component {
     // editor表示裁切组件的实例对象
     this.editor = editor;
   }
-  submit = () => {
+  submit = async () => {
     // 获取裁切图片的内容
     let image = this.editor.getImageScaledToCanvas();
     // toDataURL方法可以把图片转换为base64编码
     let imgContent = image.toDataURL();
-    console.log(imgContent)
+    let ret = await axios.post('my/avatar', {
+      avatar: imgContent
+    });
+    // 下一步：关闭窗口、更新图片
+    this.props.close(imgContent);
   }
   render() {
     let { open, close, avatar } = this.props;
@@ -156,9 +160,10 @@ class My extends React.Component {
   }
 
   // 隐藏裁切图片弹窗
-  closeCropModal = () => {
+  closeCropModal = (avatarPath) => {
     this.setState({
-      cropFlag: false
+      cropFlag: false,
+      avatarPath: avatarPath // 更新图片路径
     });
   }
 
