@@ -41,6 +41,19 @@ class SelectImageModal extends React.Component {
 
 // 裁切图片弹窗封装
 class CropImageModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      scale: 1
+    }
+  }
+  handleScale = (event) => {
+    // 控制比例值的变化
+    let num = parseFloat(event.target.value);
+    this.setState({
+      scale: num
+    });
+  }
   render() {
     let { open, close, avatar } = this.props;
     return (
@@ -55,8 +68,21 @@ class CropImageModal extends React.Component {
               border={50}
               color={[255, 255, 255, 0.6]} // RGBA
               rotate={0}
+              scale={this.state.scale}
               image={avatar}
             />
+            <div>
+              <span className='avatar-zoom'>缩放:</span>
+              <input
+                name="scale"
+                type="range"
+                onChange={this.handleScale}
+                min='1'
+                max='2'
+                step="0.01"
+                defaultValue="1"
+              />
+            </div>
           </Modal.Content>
           <Modal.Actions>
             <Button positive icon='checkmark' labelPosition='right' content='确定' />
