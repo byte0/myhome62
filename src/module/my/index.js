@@ -38,6 +38,26 @@ class SelectImageModal extends React.Component {
   }
 }
 
+// 裁切图片弹窗封装
+class CropImageModal extends React.Component {
+  render() {
+    let { open, close } = this.props;
+    return (
+      <div>
+        <Modal size='small' open={open} onClose={close}>
+          <Modal.Header>裁切图片</Modal.Header>
+          <Modal.Content>
+            裁切图片
+          </Modal.Content>
+          <Modal.Actions>
+            <Button positive icon='checkmark' labelPosition='right' content='确定' />
+          </Modal.Actions>
+        </Modal>
+      </div>
+    );
+  }
+}
+
 class My extends React.Component {
   constructor(props) {
     super(props);
@@ -45,6 +65,7 @@ class My extends React.Component {
       avatarPath: '',
       uname: '',
       imageFlag: false, // 控制选择图片弹窗的显示和隐藏
+      cropFlag: false,  // 控制裁切图片弹窗的显示和隐藏
       avatar: null,     // 表示文件的内容
     }
   }
@@ -68,7 +89,8 @@ class My extends React.Component {
     if(param&&param.name) {
       // 得到了文件
       this.setState({
-        imageFlag: false,
+        imageFlag: false, // 关闭选择图片弹窗
+        cropFlag: true,   // 显示裁切图片弹窗
         avatar: param
       });
     }else{
@@ -86,10 +108,18 @@ class My extends React.Component {
     });
   }
 
+  // 隐藏裁切图片弹窗
+  closeCropModal = () => {
+    this.setState({
+      cropFlag: false
+    });
+  }
+
   render() {
     return (
       <div className='my-container'>
         <SelectImageModal open={this.state.imageFlag} close={this.closeImageModal}/>
+        <CropImageModal open={this.state.cropFlag} close={this.closeCropModal}/>
         <div className='my-title'>
           <img src={cfg.baseURL+'public/my-bg.png'} alt='me'/>
           <div className="info">
