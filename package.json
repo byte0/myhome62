@@ -7,6 +7,7 @@
     "echarts": "^4.1.0",
     "echarts-for-react": "^2.0.15-beta.0",
     "react": "^16.8.4",
+    "react-avatar-editor": "^11.0.6",
     "react-dom": "^16.8.4",
     "react-image-gallery": "^0.8.14",
     "react-router-dom": "^4.3.1",

@@ -3,6 +3,7 @@ import cfg from '../../common';
 import { Grid, Icon, Button, Modal } from 'semantic-ui-react';
 import './index.css';
 import axios from 'axios';
+import AvatarEditor from 'react-avatar-editor';
 
 // 选择图片弹窗封装
 class SelectImageModal extends React.Component {
@@ -41,13 +42,21 @@ class SelectImageModal extends React.Component {
 // 裁切图片弹窗封装
 class CropImageModal extends React.Component {
   render() {
-    let { open, close } = this.props;
+    let { open, close, avatar } = this.props;
     return (
       <div>
         <Modal size='small' open={open} onClose={close}>
           <Modal.Header>裁切图片</Modal.Header>
           <Modal.Content>
-            裁切图片
+            <AvatarEditor
+              borderRadius={75}
+              width={150}
+              height={150}
+              border={50}
+              color={[255, 255, 255, 0.6]} // RGBA
+              rotate={0}
+              image={avatar}
+            />
           </Modal.Content>
           <Modal.Actions>
             <Button positive icon='checkmark' labelPosition='right' content='确定' />
@@ -119,7 +128,7 @@ class My extends React.Component {
     return (
       <div className='my-container'>
         <SelectImageModal open={this.state.imageFlag} close={this.closeImageModal}/>
-        <CropImageModal open={this.state.cropFlag} close={this.closeCropModal}/>
+        <CropImageModal avatar={this.state.avatar} open={this.state.cropFlag} close={this.closeCropModal}/>
         <div className='my-title'>
           <img src={cfg.baseURL+'public/my-bg.png'} alt='me'/>
           <div className="info">

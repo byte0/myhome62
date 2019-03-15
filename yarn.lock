@@ -6870,6 +6870,12 @@ react-app-polyfill@^0.2.2:
     raf "3.4.1"
     whatwg-fetch "3.0.0"
 
+react-avatar-editor@^11.0.6:
+  version "11.0.6"
+  resolved "http://registry.npm.taobao.org/react-avatar-editor/download/react-avatar-editor-11.0.6.tgz#c6194397bf9d27ab35c9741959fce1313c2f2c52"
+  dependencies:
+    prop-types "^15.5.8"
+
 react-dev-utils@^8.0.0:
   version "8.0.0"
   resolved "http://registry.npm.taobao.org/react-dev-utils/download/react-dev-utils-8.0.0.tgz#7c5b227a45a32ea8ff7fbc318f336cf9e2c6e34c"
